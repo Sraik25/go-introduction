@@ -28,7 +28,7 @@ func runBeersFn(repository beerscli.BeerRepo) CobraFn {
 	return func(cmd *cobra.Command, args []string) {
 
 		beers, err := repository.GetBeers()
-		if err == errors.BadResponse {
+		if err, ok := err.(*errors.BadResponseErr); ok {
 			log.Fatal(err)
 		}
 

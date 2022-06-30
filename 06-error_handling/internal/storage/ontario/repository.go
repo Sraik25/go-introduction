@@ -28,17 +28,17 @@ func (b *beerRepo) GetBeers() (beers []beerscli.Beer, err error) {
 	response, err := http.Get(fmt.Sprintf("%v%v", b.url, productsEnpoint))
 
 	if err != nil {
-		return nil, errors.BadResponse
+		return nil, &errors.BadResponseErr{Msg: "Something happened when call the endpoint", File: "ontario/repository.go", Line: 31}
 	}
 
 	contents, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		return nil, errors.BadResponse
+		return nil, &errors.BadResponseErr{Msg: "Something happened when read the content", File: "ontario/repository.go", Line: 36}
 	}
 
 	err = json.Unmarshal(contents, &beers)
 	if err != nil {
-		return nil, errors.BadResponse
+		return nil, &errors.BadResponseErr{Msg: "Something happened when unmarshal the content", File: "ontario/repository.go", Line: 41}
 	}
 	return
 }
